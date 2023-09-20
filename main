@@ -1,5 +1,5 @@
 # main.py
-from TextFileSearcher import TextFileSearcher
+from TextFileSearcher import TextFileSearcher  # Import the TextFileSearcher class
 
 if __name__ == "__main__":
     directory_path = input("Enter the directory path where both source and target files are located: ")
@@ -9,5 +9,6 @@ if __name__ == "__main__":
     user_input = input("Enter up to 15 search terms separated by commas: ")
     search_terms = user_input.split(",")[:15]
 
-    searcher = TextFileSearcher(directory_path)
-    searcher.search_and_write(source_file_name, target_file_name, search_terms)
+    searcher = TextFileSearcher(directory_path)  # Create an instance of TextFileSearcher
+    searcher.search_and_write(source_file_name, target_file_name, search_terms)  # Perform the search and write operation
+
