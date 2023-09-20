@@ -1,0 +1,15 @@
+# ParamFormatter.py
+class ParamFormatter:
+
+    @staticmethod
+    def format_param_line(line):
+        formatted_line = ""
+        if line.startswith(".PARAM"):
+            formatted_line += ".PARAM\n"
+            param_parts = line[len(".PARAM "):].split()
+            for part in param_parts:
+                key_value = part.split('=')
+                formatted_line += f"{key_value[0]}={key_value[1]}\n"
+        else:
+            formatted_line = line  # If it doesn't start with .PARAM, return it as-is
+        return formatted_line
