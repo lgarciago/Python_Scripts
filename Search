@@ -1,6 +1,7 @@
 # TextFileSearcher.py
 import os
 import re
+from ParamFormatter import ParamFormatter  # Import the ParamFormatter class
 
 class TextFileSearcher:
 
@@ -16,6 +17,8 @@ class TextFileSearcher:
         target_file_path = os.path.join(self.directory_path, target_file_name)
 
         regex_patterns = [self.build_regex_pattern(term.strip()) for term in search_terms]
+        
+        formatter = ParamFormatter()  # Create an instance of ParamFormatter
 
         try:
             with open(source_file_path, 'r') as infile:
@@ -23,10 +26,12 @@ class TextFileSearcher:
                     for line in infile:
                         for pattern in regex_patterns:
                             if re.match(pattern, line):
-                                outfile.write(line)
+                                formatted_line = formatter.format_param_line(line)  # Use the formatter
+                                outfile.write(formatted_line)
                                 break
         except FileNotFoundError:
             print(f"File '{source_file_path}' was not found. Make sure you've entered the correct path and filename.")
         except Exception as e:
             print(f"An error occurred: {e}")
+
 
