@@ -1,0 +1,41 @@
+import os
+import re
+
+class TextFileSearcher:
+
+    def __init__(self, directory_path):
+        self.directory_path = directory_path
+    
+    @staticmethod
+    def build_regex_pattern(term):
+        return re.escape(term).replace(r"\*", ".*")
+
+    def search_and_write(self, source_file_name, target_file_name, search_terms):
+        source_file_path = os.path.join(self.directory_path, source_file_name)
+        target_file_path = os.path.join(self.directory_path, target_file_name)
+
+        regex_patterns = [self.build_regex_pattern(term.strip()) for term in search_terms]
+
+        try:
+            with open(source_file_path, 'r') as infile:
+                with open(target_file_path, 'w') as outfile:
+                    for line in infile:
+                        for pattern in regex_patterns:
+                            if re.match(pattern, line):
+                                outfile.write(line)
+                                break
+        except FileNotFoundError:
+            print(f"File '{source_file_path}' was not found. Make sure you've entered the correct path and filename.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    directory_path = input("Enter the directory path where both source and target files are located: ")
+    source_file_name = input("Enter the name of the source file (e.g., OUT.txt): ")
+    target_file_name = input("Enter the name of the target file (e.g., OUT-v1.txt): ")
+
+    user_input = input("Enter up to 15 search terms separated by commas: ")
+    search_terms = user_input.split(",")[:15]
+
+    searcher = TextFileSearcher(directory_path)
+    searcher.search_and_write(source_file_name, target_file_name, search_terms)
